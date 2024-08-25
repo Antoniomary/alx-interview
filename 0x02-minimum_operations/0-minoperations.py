@@ -9,7 +9,7 @@ def minOperations(n):
     """
     if n <= 1:
         return 0
- 
+
     num_of_operations = 0
     factor = 2
 
