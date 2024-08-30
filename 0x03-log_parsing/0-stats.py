@@ -28,7 +28,7 @@ pattern = re.compile(p1 + p2)
 try:
     for line in stdin:
         line = line.strip()
-        if pattern.fullmatch(line) or len(line.split) > 4:
+        if pattern.fullmatch(line) or len(line.split()) > 4:
             status_code, file_size = line.split()[-2:]
             counter += 1
             if status_code in records:
