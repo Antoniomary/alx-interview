@@ -39,5 +39,7 @@ try:
             counter = 0
             print_stats(records, total_size)
 except KeyboardInterrupt:
+    pass
+finally:
     print_stats(records, total_size)
-    raise
+    raise KeyboardInterrupt
