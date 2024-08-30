@@ -22,15 +22,15 @@ records = {
 }
 
 p1 = r'(\d{1,3}\.){3}\d{1,3} - \[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d+\] '
-p2 = r'"GET /projects/260 HTTP/1.1" (200|301|400|401|403|404|405|500) \d+'
+p2 = r'"GET /projects/260 HTTP/1\.1" (200|301|400|401|403|404|405|500) \d+'
 pattern = re.compile(p1 + p2)
 
 try:
     for line in stdin:
-        line = line.strip()
-        if not pattern.fullmatch(line):
+        processed_line = line.strip()
+        if not pattern.fullmatch(processed_line):
             continue
-        status_code, file_size = line.split()[-2:]
+        status_code, file_size = processed_line.split()[-2:]
         counter += 1
         if status_code in records:
             records[status_code] += 1
@@ -39,7 +39,5 @@ try:
             counter = 0
             print_stats(records, total_size)
 except KeyboardInterrupt:
-    pass
-finally:
     print_stats(records, total_size)
-    raise KeyboardInterrupt
+    raise
