@@ -28,13 +28,12 @@ pattern = re.compile(p1 + p2)
 try:
     for line in stdin:
         processed_line = line.strip()
-        if not pattern.fullmatch(processed_line) or len(line.split()) < 4:
-            continue
-        status_code, file_size = processed_line.split()[-2:]
-        counter += 1
-        if status_code in records:
-            records[status_code] += 1
-        total_size += int(file_size)
+        if not pattern.fullmatch(processed_line):
+            status_code, file_size = processed_line.split()[-2:]
+            counter += 1
+            if status_code in records:
+                records[status_code] += 1
+            total_size += int(file_size)
         if counter == 10:
             counter = 0
             print_stats(records, total_size)
