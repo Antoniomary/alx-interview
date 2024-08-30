@@ -6,23 +6,19 @@ import re
 
 def print_stats(stats, total_size):
     """prints statistics"""
-    print('File size:', total_size)
+    print('File size: {}'.format(total_size))
     for record, count in sorted(stats.items()):
         if count:
-            print(f'{record}: {count}')
+            print('{}: {}'.format(record, count))
 
 
 total_size = 0
 counter = 0
 records = {
-    "200": 0,
-    "301": 0,
-    "400": 0,
-    "401": 0,
-    "403": 0,
-    "404": 0,
-    "405": 0,
-    "500": 0
+    "200": 0, "301": 0,
+    "400": 0, "401": 0,
+    "403": 0, "404": 0,
+    "405": 0, "500": 0
 }
 
 p1 = r'(\d{1,3}\.){3}\d{1,3} - \[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d+\] '
