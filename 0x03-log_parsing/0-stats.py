@@ -6,7 +6,7 @@ import re
 
 def print_stats(stats):
     """prints statistics"""
-    print('File Size:', total_size)
+    print('File size:', total_size)
     for record, count in stats.items():
         if count:
             print(f'{record}: {count}')
