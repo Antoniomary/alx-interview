@@ -13,31 +13,44 @@ def print_stats(stats, total_size):
 
 
 total_size = 0
-counter = 0
-records = {
-    "200": 0, "301": 0,
-    "400": 0, "401": 0,
-    "403": 0, "404": 0,
-    "405": 0, "500": 0
-}
+count = 0
 
-p1 = r'(\d{1,3}\.){3}\d{1,3} - \[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d+\] '
-p2 = r'"GET /projects/260 HTTP/1\.1" (200|301|400|401|403|404|405|500) \d+'
-pattern = re.compile(p1 + p2)
+status_codes_dict = {'200': 0, '301': 0, '400': 0, '401': 0, '403': 0,
+                     '404': 0, '405': 0, '500': 0}
 
 try:
     for line in stdin:
-        processed_line = line.strip()
-        if not pattern.fullmatch(processed_line):
-            continue
-        status_code, file_size = processed_line.split()[-2:]
-        counter += 1
-        if status_code in records:
-            records[status_code] += 1
-        total_size += int(file_size)
-        if counter == 10:
-            counter = 0
-            print_stats(records, total_size)
-except KeyboardInterrupt:
-    print_stats(records, total_size)
-    raise
+        line_list = line.split(" ")
+
+        if len(line_list) > 4:
+            status_code = line_list[-2]
+            file_size = int(line_list[-1])
+
+            # check if the status code receive exists in the dictionary and
+            # increment its count
+            if status_code in status_codes_dict.keys():
+                status_codes_dict[status_code] += 1
+
+            # update total size
+            total_size += file_size
+
+            # update count of lines
+            count += 1
+
+        if count == 10:
+            count = 0  # reset count
+            print('File size: {}'.format(total_size))
+
+            # print out status code counts
+            for key, value in sorted(status_codes_dict.items()):
+                if value != 0:
+                    print('{}: {}'.format(key, value))
+
+except Exception as err:
+    pass
+
+finally:
+    print('File size: {}'.format(total_size))
+    for key, value in sorted(status_codes_dict.items()):
+        if value != 0:
+            print('{}: {}'.format(key, value))
