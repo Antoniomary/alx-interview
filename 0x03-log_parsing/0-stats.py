@@ -4,10 +4,10 @@ from sys import stdin
 import re
 
 
-def print_stats(stats):
+def print_stats(stats, total_size):
     """prints statistics"""
     print('File size:', total_size)
-    for record, count in stats.items():
+    for record, count in sorted(stats.items()):
         if count:
             print(f'{record}: {count}')
 
@@ -35,15 +35,13 @@ try:
         if not pattern.fullmatch(line):
             continue
         status_code, file_size = line.split()[-2:]
+        counter += 1
+        if status_code in records:
+            records[status_code] += 1
+        total_size += int(file_size)
         if counter == 10:
             counter = 0
-            print_stats(records)
-        else:
-            count = records.get(status_code)
-            if count is not None:
-                records[status_code] = count + 1
-            total_size += int(file_size)
-        counter += 1
+            print_stats(records, total_size)
 except KeyboardInterrupt:
-    print_stats(records)
+    print_stats(records, total_size)
     raise
