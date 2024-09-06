@@ -15,7 +15,7 @@ def validUTF8(data):
         if n_bytes == 0:
             if n & masks[0] == 0b00000000:
                 continue
-            elif n & masks[1] == 0b1100000:
+            elif n & masks[1] == 0b11000000:
                 n_bytes = 1
             elif n & masks[2] == 0b11100000:
                 n_bytes = 2
