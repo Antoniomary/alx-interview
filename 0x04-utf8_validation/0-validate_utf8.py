@@ -44,7 +44,7 @@ def validUTF8(data):
                     if not check_for_bin_10(each):
                         return False
                 else:
-                    if not ((each >> 5) == 0b1110):
+                    if not ((each >> 4) == 0b1110):
                         return False
         elif each <= 0xffffffffffffffff:
             for i in range(4):
@@ -53,7 +53,7 @@ def validUTF8(data):
                     if not check_for_bin_10(each):
                         return False
                 else:
-                    if not ((each >> 5) == 0b11110):
+                    if not ((each >> 3) == 0b11110):
                         return False
         else:
             return False
