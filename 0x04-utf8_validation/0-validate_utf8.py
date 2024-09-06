@@ -2,13 +2,22 @@
 """contains validUTF8 function"""
 
 
-def get_byte(n):
-    """gets the last 8 bits in a number
+def get_bytes(n):
+    """returns a list of the bits in a number from
+       least significant to most significant
     """
-    if n >> 8 >= 1:
-        return n & 0xffff
+    all_bytes = []
 
-    return n
+    if n > 0xffffffff:
+        return []
+
+    for i in range(4):
+        all_bytes.append(n & 0xff)
+        if n >> 8 == 0:
+            break
+        n >>= 8
+
+    return all_bytes
 
 
 def check_for_bin_10(byte):
@@ -22,38 +31,38 @@ def validUTF8(data):
     """determines if a given data set represents a valid UTF-8 encoding.
        Returns True if data is a valid UTF-8 encoding, else False
     """
-    n = 0xFFFF
+    if not data:
+        return False
 
     for each in data:
-        if each <= 0xffff:
-            if not ((each >> 7) == 0):
+        all_bytes = get_bytes(each)
+        len_all_bytes = len(all_bytes)
+        if len_all_bytes == 1:
+            if not ((all_bytes[0] >> 7) == 0):
                 return False
-        elif each <= 0xffffffff:
-            for i in range(2):
-                each = get_byte(each)
-                if i == 0:
-                    if not check_for_bin_10(each):
+        elif len_all_bytes == 2:
+            for i in range(len_all_bytes):
+                if i != 1:
+                    if not check_for_bin_10(all_bytes[i]):
                         return False
                 else:
-                    if not ((each >> 5) == 0b110):
+                    if not ((all_bytes[i] >> 5) == 0b110):
                         return False
-        elif each <= 0xffffffffffff:
-            for i in range(3):
-                each = get_byte(each)
+        elif len_all_bytes == 3:
+            for i in range(len_all_bytes):
                 if i != 2:
                     if not check_for_bin_10(each):
                         return False
                 else:
-                    if not ((each >> 4) == 0b1110):
+                    if not ((all_bytes[i] >> 4) == 0b1110):
                         return False
-        elif each <= 0xffffffffffffffff:
-            for i in range(4):
-                each = get_byte(each)
+        elif len_all_bytes == 4:
+            for i in range(len_all_bytes):
                 if i != 3:
                     if not check_for_bin_10(each):
                         return False
                 else:
-                    if not ((each >> 3) == 0b11110):
+                    if not ((all_bytes[i] >> 3) == 0b11110):
                         return False
         else:
             return False
