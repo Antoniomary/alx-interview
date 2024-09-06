@@ -41,29 +41,20 @@ def validUTF8(data):
             if not ((all_bytes[0] >> 7) == 0):
                 return False
         elif len_all_bytes == 2:
-            for i in range(len_all_bytes):
-                if i != 1:
-                    if not check_for_bin_10(all_bytes[i]):
-                        return False
-                else:
-                    if not ((all_bytes[i] >> 5) == 0b110):
-                        return False
+            if not ((check_for_bin_10(all_bytes[0]) and
+                    (all_bytes[1] >> 5) == 0b110)):
+                return False
         elif len_all_bytes == 3:
-            for i in range(len_all_bytes):
-                if i != 2:
-                    if not check_for_bin_10(each):
-                        return False
-                else:
-                    if not ((all_bytes[i] >> 4) == 0b1110):
-                        return False
+            if not (check_for_bin_10(all_bytes[0]) and
+                    check_for_bin_10(all_bytes[1]) and
+                    (all_bytes[2] >> 4) == 0b1110):
+                return False
         elif len_all_bytes == 4:
-            for i in range(len_all_bytes):
-                if i != 3:
-                    if not check_for_bin_10(each):
-                        return False
-                else:
-                    if not ((all_bytes[i] >> 3) == 0b11110):
-                        return False
+            if not (check_for_bin_10(all_bytes[0]) and
+                    check_for_bin_10(all_bytes[1]) and
+                    check_for_bin_10(all_bytes[2]) and
+                    (all_bytes[3] >> 3) == 0b11110):
+                return False
         else:
             return False
 
