@@ -13,21 +13,17 @@ def makeChange(coins, total):
     if total <= 0:
         return 0
 
-    if not coins:
-        return 0
-
     # Removes duplicate coins and sorts coins in descending order
     coins = sorted(set(coins), reverse=True)
 
-    # Initialize array to store the minimum number of coins for each amount
-    dp = [float('inf')] * (total + 1)
-
-    # No coins needed to make total of 0
-    dp[0] = 0
-
-    # Build the dp array
+    change = 0
     for coin in coins:
-        for j in range(coin, total + 1):
-            dp[j] = min(dp[j], dp[j - coin] + 1)
+        if total <= 0:
+            break
+        change += total // coin
+        total %= coin
 
-    return dp[total] if dp[total] != float('inf') else -1
+    if total != 0:
+        return -1
+
+    return change
