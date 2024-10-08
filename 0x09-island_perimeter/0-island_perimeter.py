@@ -13,11 +13,8 @@ def island_perimeter(grid):
         - Cells are connected horizontally/vertically (not diagonally).
         - grid is rectangular, with its width and height not exceeding 100
     """
-    if not grid:
-        return None
-
-    if not isinstance(grid, list):
-        return None
+    if not grid or not isinstance(grid, list):
+        return 0
 
     grid_len = len(grid)
     row_len = None
@@ -36,13 +33,13 @@ def island_perimeter(grid):
         j = 0
         while j < row_len:
             if grid[i][j] == 1:
-                if i and grid[i - 1][j] == 0:
+                if i == 0 or grid[i - 1][j] == 0:
                     perimeter += 1
-                if i + 1 < grid_len and grid[i + 1][j] == 0:
+                if i == grid_len - 1 or grid[i + 1][j] == 0:
                     perimeter += 1
-                if j and grid[i][j - 1] == 0:
+                if j == 0 and grid[i][j - 1] == 0:
                     perimeter += 1
-                if j + 1 < row_len and grid[i][j + 1] == 0:
+                if j == row_len - 1 and grid[i][j + 1] == 0:
                     perimeter += 1
             j += 1
         i += 1
