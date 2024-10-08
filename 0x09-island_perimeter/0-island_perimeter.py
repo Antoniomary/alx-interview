@@ -23,9 +23,9 @@ def island_perimeter(grid):
 
     for row in grid:
         if not isinstance(row, list):
-            return None
+            return 0
         if len(row) != row_len:
-            return None
+            return 0
 
     perimeter = 0
     i = 0
