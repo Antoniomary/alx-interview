@@ -38,7 +38,7 @@ def isWinner(x, nums):
         game_play = 0  # starts at zero
         if dp[n] == -1:
             dp[n] = len(sieve_of_eratosthenes(n))
-            game_play = dp[n]  # result is out
+        game_play = dp[n]  # result is out
 
         if game_play % 2 == 0:
             score_board[1] += 1
